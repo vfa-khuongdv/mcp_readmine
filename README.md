@@ -103,7 +103,36 @@ Thêm vào file cấu hình Cursor:
 
 Restart Cursor để load MCP server.
 
-### Với VS Code (Cline Extension)
+### Với VS Code
+
+**Cách 1: Sử dụng file mcp.json (Không cần extension)**
+
+Tạo hoặc chỉnh sửa file cấu hình MCP:
+
+**macOS/Linux**: `~/.vscode/mcp.json`
+
+**Windows**: `%APPDATA%\Code\User\mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "redmine": {
+      "command": "npx",
+      "args": ["-y", "@duongkhuong/mcp-redmine"],
+      "env": {
+        "REDMINE_URL": "https://your-redmine-instance.com",
+        "REDMINE_API_KEY": "your_api_key_here",
+        "REDMINE_USERNAME": "your_username",
+        "REDMINE_PASSWORD": "your_password"
+      }
+    }
+  }
+}
+```
+
+Reload VS Code để load MCP server.
+
+**Cách 2: Sử dụng Cline Extension**
 
 1. Cài đặt extension [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
 2. Mở VS Code Settings (JSON)
@@ -128,6 +157,10 @@ Restart Cursor để load MCP server.
 
 Reload VS Code để load MCP server.
 
+````
+
+Reload VS Code để load MCP server.
+
 ### Lấy Redmine API Key
 
 1. Đăng nhập vào Redmine
@@ -140,7 +173,7 @@ Reload VS Code để load MCP server.
 
 ```bash
 npm start
-```
+````
 
 ### Test với MCP Inspector
 
