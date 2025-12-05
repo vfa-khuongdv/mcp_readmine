@@ -10,7 +10,7 @@
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@khuongdv/mcp-redmine",
+      "identifier": "@duongkhuong/mcp-redmine",
       "version": "1.0.0",
       "transport": {
         "type": "stdio"

@@ -1,5 +1,5 @@
 {
-  "name": "@khuongdv/mcp-redmine",
+  "name": "@duongkhuong/mcp-redmine",
   "version": "1.0.0",
   "description": "MCP server for Redmine API integration with AI agents",
   "mcpName": "io.github.khuongdv/redmine",

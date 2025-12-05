@@ -1,6 +1,6 @@
 # Redmine MCP Server
 
-[![npm version](https://badge.fury.io/js/@khuongdv%2Fmcp-redmine.svg)](https://www.npmjs.com/package/@khuongdv/mcp-redmine)
+[![npm version](https://badge.fury.io/js/@duongkhuong%2Fmcp-redmine.svg)](https://www.npmjs.com/package/@duongkhuong/mcp-redmine)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API để lấy thông tin về tickets, projects, users và time entries.
@@ -24,7 +24,7 @@ MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API �
 ### Cài đặt từ npm (Khuyến nghị)
 
 ```bash
-npm install -g @khuongdv/mcp-redmine
+npm install -g @duongkhuong/mcp-redmine
 ```
 
 ### Hoặc cài đặt từ source
@@ -58,7 +58,7 @@ Thêm vào file cấu hình Claude Desktop (`~/Library/Application Support/Claud
   "mcpServers": {
     "redmine": {
       "command": "npx",
-      "args": ["-y", "@khuongdv/mcp-redmine"],
+      "args": ["-y", "@duongkhuong/mcp-redmine"],
       "env": {
         "REDMINE_URL": "https://your-redmine-instance.com",
         "REDMINE_API_KEY": "your_api_key_here",
