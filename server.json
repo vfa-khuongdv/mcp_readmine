@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
-  "name": "io.github.khuongdv/redmine",
+  "name": "io.github.vfa-khuongdv/redmine",
   "description": "MCP server for Redmine API integration with AI agents.",
   "repository": {
     "url": "https://github.com/vfa-khuongdv/mcp_readmine",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@duongkhuong/mcp-redmine",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "transport": {
         "type": "stdio"
       },

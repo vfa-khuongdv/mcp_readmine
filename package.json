@@ -1,8 +1,8 @@
 {
   "name": "@duongkhuong/mcp-redmine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Redmine API integration with AI agents",
-  "mcpName": "io.github.khuongdv/redmine",
+  "mcpName": "io.github.vfa-khuongdv/redmine",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
