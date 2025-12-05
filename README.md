@@ -51,7 +51,11 @@ Bạn cần cung cấp các biến môi trường sau:
 
 ### Với Claude Desktop
 
-Thêm vào file cấu hình Claude Desktop (`~/Library/Application Support/Claude/claude_desktop_config.json` trên macOS):
+Thêm vào file cấu hình Claude Desktop:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
@@ -72,6 +76,66 @@ Thêm vào file cấu hình Claude Desktop (`~/Library/Application Support/Claud
 
 Restart Claude Desktop để load MCP server.
 
+### Với Cursor IDE
+
+Thêm vào file cấu hình Cursor:
+
+**macOS/Linux**: `~/.cursor/mcp.json`
+
+**Windows**: `%APPDATA%\Cursor\User\mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "redmine": {
+      "command": "npx",
+      "args": ["-y", "@duongkhuong/mcp-redmine"],
+      "env": {
+        "REDMINE_URL": "https://your-redmine-instance.com",
+        "REDMINE_API_KEY": "your_api_key_here",
+        "REDMINE_USERNAME": "your_username",
+        "REDMINE_PASSWORD": "your_password"
+      }
+    }
+  }
+}
+```
+
+Restart Cursor để load MCP server.
+
+### Với VS Code (Cline Extension)
+
+1. Cài đặt extension [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
+2. Mở VS Code Settings (JSON)
+3. Thêm cấu hình MCP:
+
+```json
+{
+  "cline.mcpServers": {
+    "redmine": {
+      "command": "npx",
+      "args": ["-y", "@duongkhuong/mcp-redmine"],
+      "env": {
+        "REDMINE_URL": "https://your-redmine-instance.com",
+        "REDMINE_API_KEY": "your_api_key_here",
+        "REDMINE_USERNAME": "your_username",
+        "REDMINE_PASSWORD": "your_password"
+      }
+    }
+  }
+}
+```
+
+Reload VS Code để load MCP server.
+
+### Lấy Redmine API Key
+
+1. Đăng nhập vào Redmine
+2. Vào **My account** (góc trên bên phải)
+3. Click tab **API access key**
+4. Click **Show** để hiển thị API key
+5. Copy API key và paste vào config
+
 ### Chạy standalone (Development)
 
 ```bash
@@ -81,7 +145,7 @@ npm start
 ### Test với MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector npx -y @khuongdv/mcp-redmine
+npx @modelcontextprotocol/inspector npx -y @duongkhuong/mcp-redmine
 ```
 
 ## Available Tools
