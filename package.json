@@ -1,0 +1,49 @@
+{
+  "name": "@khuongdv/mcp-redmine",
+  "version": "1.0.0",
+  "description": "MCP server for Redmine API integration with AI agents",
+  "mcpName": "io.github.khuongdv/redmine",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-redmine": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "redmine",
+    "ai",
+    "agent",
+    "model-context-protocol",
+    "mcp-server",
+    "redmine-api",
+    "llm",
+    "claude",
+    "project-management"
+  ],
+  "author": "khuongdv",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vfa-khuongdv/mcp_readmine.git"
+  },
+  "homepage": "https://github.com/vfa-khuongdv/mcp_readmine#readme",
+  "bugs": {
+    "url": "https://github.com/vfa-khuongdv/mcp_readmine/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
