@@ -219,30 +219,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case "update_comment": {
-        const params = toolSchemas.update_comment.parse(args);
-        await redmineClient.updateComment(
-          params.issue_id,
-          params.journal_id,
-          params.notes
-        );
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(
-                {
-                  success: true,
-                  message: `Comment ${params.journal_id} on issue ${params.issue_id} updated successfully`,
-                },
-                null,
-                2
-              ),
-            },
-          ],
-        };
-      }
-
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
     }

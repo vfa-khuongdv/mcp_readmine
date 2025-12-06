@@ -226,24 +226,4 @@ export class RedmineClient {
       throw error;
     }
   }
-
-  /**
-   * Update an existing comment (journal entry)
-   * Note: Redmine API may not support updating journal entries directly
-   * This attempts to add a new note with journal_id reference
-   */
-  async updateComment(
-    issueId: number,
-    journalId: number,
-    notes: string
-  ): Promise<void> {
-    const payload = {
-      issue: {
-        notes,
-        journal_id: journalId,
-      },
-    };
-
-    await this.client.put(`/issues/${issueId}.json`, payload);
-  }
 }

@@ -9,7 +9,6 @@ import {
   CreateIssueSchema,
   UpdateIssueSchema,
   AddCommentSchema,
-  UpdateCommentSchema,
 } from "./types.js";
 
 export const tools = [
@@ -316,30 +315,6 @@ export const tools = [
       required: ["issue_id", "notes"],
     },
   },
-  {
-    name: "update_comment",
-    description:
-      "Update an existing comment on a Redmine issue. You need the journal_id which can be obtained from the issue details (use get_issue tool).",
-    inputSchema: {
-      type: "object",
-      properties: {
-        issue_id: {
-          type: "number",
-          description: "The ID of the issue containing the comment",
-        },
-        journal_id: {
-          type: "number",
-          description:
-            "The ID of the journal/comment to update (found in issue.journals array)",
-        },
-        notes: {
-          type: "string",
-          description: "The updated comment text",
-        },
-      },
-      required: ["issue_id", "journal_id", "notes"],
-    },
-  },
 ];
 
 // Export schemas for validation
@@ -354,5 +329,4 @@ export const toolSchemas = {
   create_issue: CreateIssueSchema,
   update_issue: UpdateIssueSchema,
   add_comment: AddCommentSchema,
-  update_comment: UpdateCommentSchema,
 };

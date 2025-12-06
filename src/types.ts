@@ -168,12 +168,6 @@ export const AddCommentSchema = z.object({
   notes: z.string(),
 });
 
-export const UpdateCommentSchema = z.object({
-  issue_id: z.number(),
-  journal_id: z.number(),
-  notes: z.string(),
-});
-
 export type GetIssuesParams = z.infer<typeof GetIssuesSchema>;
 export type GetIssueParams = z.infer<typeof GetIssueSchema>;
 export type GetProjectsParams = z.infer<typeof GetProjectsSchema>;
@@ -184,4 +178,3 @@ export type GetTimeEntriesParams = z.infer<typeof GetTimeEntriesSchema>;
 export type CreateIssueParams = z.infer<typeof CreateIssueSchema>;
 export type UpdateIssueParams = z.infer<typeof UpdateIssueSchema>;
 export type AddCommentParams = z.infer<typeof AddCommentSchema>;
-export type UpdateCommentParams = z.infer<typeof UpdateCommentSchema>;
