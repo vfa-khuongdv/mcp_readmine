@@ -122,10 +122,10 @@ export const GetProjectSchema = z.object({
   project_id: z.number(),
 });
 
-export const GetUsersSchema = z.object({
-  status: z.enum(["active", "registered", "locked"]).optional(),
-  limit: z.number().min(1).max(100).default(25),
-  offset: z.number().min(0).default(0),
+export const GetProjectMembersSchema = z.object({
+  project_id: z.number().describe("The numeric ID of the project"),
+  limit: z.number().min(1).max(100).default(25).describe("Number of results (1-100)"),
+  offset: z.number().min(0).default(0).describe("Pagination offset"),
 });
 
 export const SearchIssuesSchema = z.object({
@@ -196,7 +196,7 @@ export type GetIssuesParams = z.infer<typeof GetIssuesSchema>;
 export type GetIssueParams = z.infer<typeof GetIssueSchema>;
 export type GetProjectsParams = z.infer<typeof GetProjectsSchema>;
 export type GetProjectParams = z.infer<typeof GetProjectSchema>;
-export type GetUsersParams = z.infer<typeof GetUsersSchema>;
+export type GetProjectMembersParams = z.infer<typeof GetProjectMembersSchema>;
 export type SearchIssuesParams = z.infer<typeof SearchIssuesSchema>;
 export type GetTimeEntriesParams = z.infer<typeof GetTimeEntriesSchema>;
 export type CreateIssueParams = z.infer<typeof CreateIssueSchema>;

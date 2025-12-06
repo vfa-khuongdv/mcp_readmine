@@ -123,8 +123,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case "get_users": {
-        const params = toolSchemas.get_users.parse(args);
+      case "get_project_members": {
+        const params = toolSchemas.get_project_members.parse(args);
         const result = await redmineClient.getUsers(params);
         return {
           content: [

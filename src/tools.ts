@@ -3,7 +3,7 @@ import {
   GetIssueSchema,
   GetProjectsSchema,
   GetProjectSchema,
-  GetUsersSchema,
+  GetProjectMembersSchema,
   SearchIssuesSchema,
   GetTimeEntriesSchema,
   CreateIssueSchema,
@@ -101,16 +101,15 @@ export const tools = [
     },
   },
   {
-    name: "get_users",
+    name: "get_project_members",
     description:
-      "Get a list of Redmine users. Returns paginated results with user details.",
+      "Get a list of project members in a specific Redmine project. Returns paginated results with member details, user info, and their roles in the project.",
     inputSchema: {
       type: "object",
       properties: {
-        status: {
-          type: "string",
-          enum: ["active", "registered", "locked"],
-          description: "Filter users by status",
+        project_id: {
+          type: "number",
+          description: "The numeric ID of the Redmine project (required)",
         },
         limit: {
           type: "number",
@@ -124,6 +123,7 @@ export const tools = [
           minimum: 0,
         },
       },
+      required: ["project_id"],
     },
   },
   {
@@ -383,7 +383,7 @@ export const toolSchemas = {
   get_issue: GetIssueSchema,
   get_projects: GetProjectsSchema,
   get_project: GetProjectSchema,
-  get_users: GetUsersSchema,
+  get_project_members: GetProjectMembersSchema,
   search_issues: SearchIssuesSchema,
   get_time_entries: GetTimeEntriesSchema,
   create_issue: CreateIssueSchema,

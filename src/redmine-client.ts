@@ -89,22 +89,47 @@ export class RedmineClient {
   }
 
   /**
-   * Get list of users
+   * Get list of users in a specific project
    */
   async getUsers(
-    params: { status?: string; limit?: number; offset?: number } = {}
+    params: { project_id: number; limit?: number; offset?: number }
   ): Promise<{
     users: RedmineUser[];
     total_count: number;
   }> {
-    const response = await this.client.get("/users.json", {
-      params: {
-        status: params.status,
-        limit: params.limit || 25,
-        offset: params.offset || 0,
-      },
-    });
-    return response.data;
+    if (!params.project_id) {
+      throw new Error("project_id is required");
+    }
+    
+    try {
+      const response = await this.client.get(`/projects/${params.project_id}/memberships.json`, {
+        params: {
+          limit: params.limit || 25,
+          offset: params.offset || 0,
+        },
+      });
+      
+      // Transform memberships to users format
+      const users = response.data.memberships.map((membership: any) => ({
+        id: membership.user.id,
+        login: membership.user.login,
+        firstname: membership.user.firstname,
+        lastname: membership.user.lastname,
+        name: membership.user.name,
+        mail: membership.user.mail,
+        roles: membership.roles,
+      }));
+      
+      return {
+        users,
+        total_count: response.data.total_count,
+      };
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error(`Project with ID ${params.project_id} not found`);
+      }
+      throw error;
+    }
   }
 
   /**
