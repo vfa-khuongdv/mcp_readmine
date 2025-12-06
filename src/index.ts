@@ -239,6 +239,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
+      case "log_time": {
+        const params = toolSchemas.log_time.parse(args);
+        const result = await redmineClient.logTime(params);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "get_time_entry_activities": {
+        const result = await redmineClient.getTimeEntryActivities();
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
     }

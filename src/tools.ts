@@ -10,6 +10,8 @@ import {
   UpdateIssueSchema,
   AddCommentSchema,
   DeleteIssueSchema,
+  LogTimeSchema,
+  GetTimeEntryActivitiesSchema,
 } from "./types.js";
 
 export const tools = [
@@ -330,6 +332,49 @@ export const tools = [
       required: ["issue_id"],
     },
   },
+  {
+    name: "log_time",
+    description: "Log time stats for an issue or project.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        issue_id: {
+          type: "number",
+          description: "The ID of the issue to log time for",
+        },
+        project_id: {
+          type: "number",
+          description: "The ID of the project to log time for",
+        },
+        hours: {
+          type: "number",
+          description: "The number of hours to log",
+        },
+        activity_id: {
+          type: "number",
+          description: "The ID of the activity (optional)",
+        },
+        comments: {
+          type: "string",
+          description: "Short comment for the time entry",
+        },
+        spent_on: {
+          type: "string",
+          description: "Date the time was spent (YYYY-MM-DD)",
+        },
+      },
+      required: ["hours"],
+    },
+  },
+  {
+    name: "get_time_entry_activities",
+    description:
+      "Get list of time entry activities (e.g. Design, Development).",
+    inputSchema: {
+      type: "object",
+      properties: {},
+    },
+  },
 ];
 
 // Export schemas for validation
@@ -345,4 +390,6 @@ export const toolSchemas = {
   update_issue: UpdateIssueSchema,
   add_comment: AddCommentSchema,
   delete_issue: DeleteIssueSchema,
+  log_time: LogTimeSchema,
+  get_time_entry_activities: GetTimeEntryActivitiesSchema,
 };

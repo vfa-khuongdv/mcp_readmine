@@ -90,7 +90,15 @@ export interface RedmineTimeEntry {
   updated_on: string;
 }
 
+export interface TimeEntryActivity {
+  id: number;
+  name: string;
+  is_default: boolean;
+  active: boolean;
+}
+
 // Zod Schemas for MCP Tool Input Validation
+
 export const GetIssuesSchema = z.object({
   project_id: z.number().optional(),
   status_id: z
@@ -172,7 +180,19 @@ export const DeleteIssueSchema = z.object({
   issue_id: z.number(),
 });
 
+export const LogTimeSchema = z.object({
+  issue_id: z.number().optional(),
+  project_id: z.number().optional(),
+  hours: z.number().positive(),
+  activity_id: z.number().optional(),
+  comments: z.string().optional(),
+  spent_on: z.string().optional(), // YYYY-MM-DD
+});
+
+export const GetTimeEntryActivitiesSchema = z.object({});
+
 export type GetIssuesParams = z.infer<typeof GetIssuesSchema>;
+
 export type GetIssueParams = z.infer<typeof GetIssueSchema>;
 export type GetProjectsParams = z.infer<typeof GetProjectsSchema>;
 export type GetProjectParams = z.infer<typeof GetProjectSchema>;
@@ -183,3 +203,7 @@ export type CreateIssueParams = z.infer<typeof CreateIssueSchema>;
 export type UpdateIssueParams = z.infer<typeof UpdateIssueSchema>;
 export type AddCommentParams = z.infer<typeof AddCommentSchema>;
 export type DeleteIssueParams = z.infer<typeof DeleteIssueSchema>;
+export type LogTimeParams = z.infer<typeof LogTimeSchema>;
+export type GetTimeEntryActivitiesParams = z.infer<
+  typeof GetTimeEntryActivitiesSchema
+>;

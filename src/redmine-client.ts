@@ -5,11 +5,13 @@ import type {
   RedmineProject,
   RedmineUser,
   RedmineTimeEntry,
+  TimeEntryActivity,
   GetIssuesParams,
   GetProjectsParams,
   GetTimeEntriesParams,
   CreateIssueParams,
   UpdateIssueParams,
+  LogTimeParams,
 } from "./types.js";
 
 export class RedmineClient {
@@ -240,5 +242,35 @@ export class RedmineClient {
       });
       throw error;
     }
+  }
+
+  /**
+   * Log time entry
+   */
+  async logTime(params: LogTimeParams): Promise<RedmineTimeEntry> {
+    const response = await this.client.post("/time_entries.json", {
+      time_entry: {
+        issue_id: params.issue_id,
+        project_id: params.project_id,
+        hours: params.hours,
+        activity_id: params.activity_id,
+        comments: params.comments,
+        spent_on: params.spent_on,
+      },
+    });
+    return response.data.time_entry;
+  }
+
+  /**
+   * Get time entry activities
+
+   */
+  async getTimeEntryActivities(): Promise<{
+    time_entry_activities: TimeEntryActivity[];
+  }> {
+    const response = await this.client.get(
+      "/enumerations/time_entry_activities.json"
+    );
+    return response.data;
   }
 }
