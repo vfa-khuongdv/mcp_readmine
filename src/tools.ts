@@ -9,6 +9,7 @@ import {
   CreateIssueSchema,
   UpdateIssueSchema,
   AddCommentSchema,
+  DeleteIssueSchema,
 } from "./types.js";
 
 export const tools = [
@@ -315,6 +316,20 @@ export const tools = [
       required: ["issue_id", "notes"],
     },
   },
+  {
+    name: "delete_issue",
+    description: "Delete a Redmine issue/ticket by ID.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        issue_id: {
+          type: "number",
+          description: "The ID of the issue to delete",
+        },
+      },
+      required: ["issue_id"],
+    },
+  },
 ];
 
 // Export schemas for validation
@@ -329,4 +344,5 @@ export const toolSchemas = {
   create_issue: CreateIssueSchema,
   update_issue: UpdateIssueSchema,
   add_comment: AddCommentSchema,
+  delete_issue: DeleteIssueSchema,
 };

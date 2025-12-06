@@ -219,6 +219,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
+      case "delete_issue": {
+        const params = toolSchemas.delete_issue.parse(args);
+        await redmineClient.deleteIssue(params.issue_id);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  success: true,
+                  message: `Issue ${params.issue_id} deleted successfully`,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      }
+
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
     }

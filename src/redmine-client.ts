@@ -226,4 +226,19 @@ export class RedmineClient {
       throw error;
     }
   }
+  /**
+   * Delete an issue
+   */
+  async deleteIssue(issueId: number): Promise<void> {
+    try {
+      await this.client.delete(`/issues/${issueId}.json`);
+    } catch (error: any) {
+      console.error("Error deleting issue:", {
+        issueId,
+        error: error.response?.data || error.message,
+        status: error.response?.status,
+      });
+      throw error;
+    }
+  }
 }

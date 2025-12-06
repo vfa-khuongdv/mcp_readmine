@@ -19,7 +19,7 @@ MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API �
   - `create_issue` - Tạo issue mới
   - `update_issue` - Cập nhật issue
   - `add_comment` - Thêm comment vào issue
-  - `update_comment` - Cập nhật comment
+  - `delete_issue` - Xóa issue
 - ✅ Type-safe với TypeScript và Zod validation
 - ✅ Pagination support cho tất cả list endpoints
 
@@ -372,25 +372,27 @@ Thêm comment/ghi chú vào một issue. Đây là cách đơn giản để thê
 }
 ```
 
-### 11. update_comment
+### 11. delete_issue
 
-Cập nhật một comment đã tồn tại trên issue. Bạn cần journal_id có thể lấy từ chi tiết issue (dùng tool get_issue).
+Xóa một issue/ticket khỏi Redmine.
 
 **Parameters:**
 
-- `issue_id` (number, required) - ID của issue chứa comment
-- `journal_id` (number, required) - ID của journal/comment cần update (tìm trong issue.journals array)
-- `notes` (string, required) - Nội dung comment mới
+- `issue_id` (number, required) - ID của issue cần xóa
 
 **Example:**
 
 ```json
 {
-  "issue_id": 123,
-  "journal_id": 456,
-  "notes": "Updated: The code has been reviewed and approved for merge"
+  "issue_id": 123
 }
 ```
+
+## Roadmap / Future Tools
+
+Các tools dự kiến sẽ được support trong tương lai:
+
+- #NA
 
 ## Development
 
