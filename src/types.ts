@@ -135,6 +135,45 @@ export const GetTimeEntriesSchema = z.object({
   offset: z.number().min(0).default(0),
 });
 
+export const CreateIssueSchema = z.object({
+  project_id: z.number(),
+  subject: z.string(),
+  description: z.string().optional(),
+  tracker_id: z.number().optional(),
+  status_id: z.number().optional(),
+  priority_id: z.number().optional(),
+  assigned_to_id: z.number().optional(),
+  start_date: z.string().optional(), // YYYY-MM-DD
+  due_date: z.string().optional(), // YYYY-MM-DD
+  done_ratio: z.number().min(0).max(100).optional(), // 0-100%
+});
+
+export const UpdateIssueSchema = z.object({
+  issue_id: z.number(),
+  project_id: z.number().optional(),
+  subject: z.string().optional(),
+  description: z.string().optional(),
+  tracker_id: z.number().optional(),
+  status_id: z.number().optional(),
+  priority_id: z.number().optional(),
+  assigned_to_id: z.number().optional(),
+  start_date: z.string().optional(), // YYYY-MM-DD
+  due_date: z.string().optional(), // YYYY-MM-DD
+  done_ratio: z.number().min(0).max(100).optional(), // 0-100%
+  notes: z.string().optional(), // Update notes/comments
+});
+
+export const AddCommentSchema = z.object({
+  issue_id: z.number(),
+  notes: z.string(),
+});
+
+export const UpdateCommentSchema = z.object({
+  issue_id: z.number(),
+  journal_id: z.number(),
+  notes: z.string(),
+});
+
 export type GetIssuesParams = z.infer<typeof GetIssuesSchema>;
 export type GetIssueParams = z.infer<typeof GetIssueSchema>;
 export type GetProjectsParams = z.infer<typeof GetProjectsSchema>;
@@ -142,3 +181,7 @@ export type GetProjectParams = z.infer<typeof GetProjectSchema>;
 export type GetUsersParams = z.infer<typeof GetUsersSchema>;
 export type SearchIssuesParams = z.infer<typeof SearchIssuesSchema>;
 export type GetTimeEntriesParams = z.infer<typeof GetTimeEntriesSchema>;
+export type CreateIssueParams = z.infer<typeof CreateIssueSchema>;
+export type UpdateIssueParams = z.infer<typeof UpdateIssueSchema>;
+export type AddCommentParams = z.infer<typeof AddCommentSchema>;
+export type UpdateCommentParams = z.infer<typeof UpdateCommentSchema>;

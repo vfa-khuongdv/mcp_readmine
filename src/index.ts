@@ -166,6 +166,83 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
+      case "create_issue": {
+        const params = toolSchemas.create_issue.parse(args);
+        const result = await redmineClient.createIssue(params);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "update_issue": {
+        const params = toolSchemas.update_issue.parse(args);
+        await redmineClient.updateIssue(params.issue_id, params);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  success: true,
+                  message: `Issue ${params.issue_id} updated successfully`,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      }
+
+      case "add_comment": {
+        const params = toolSchemas.add_comment.parse(args);
+        await redmineClient.addComment(params.issue_id, params.notes);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  success: true,
+                  message: `Comment added to issue ${params.issue_id}`,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      }
+
+      case "update_comment": {
+        const params = toolSchemas.update_comment.parse(args);
+        await redmineClient.updateComment(
+          params.issue_id,
+          params.journal_id,
+          params.notes
+        );
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  success: true,
+                  message: `Comment ${params.journal_id} on issue ${params.issue_id} updated successfully`,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      }
+
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
     }

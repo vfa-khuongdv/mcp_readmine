@@ -8,7 +8,7 @@ MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API �
 ## Tính năng
 
 - ✅ Hỗ trợ xác thực kép: Basic Auth + API Key
-- ✅ 7 tools để tương tác với Redmine:
+- ✅ 11 tools để tương tác với Redmine:
   - `get_issues` - Lấy danh sách issues với filters
   - `get_issue` - Lấy chi tiết issue theo ID
   - `get_projects` - Lấy danh sách projects
@@ -16,6 +16,10 @@ MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API �
   - `get_users` - Lấy danh sách users
   - `search_issues` - Tìm kiếm issues theo keyword
   - `get_time_entries` - Lấy time entries
+  - `create_issue` - Tạo issue mới
+  - `update_issue` - Cập nhật issue
+  - `add_comment` - Thêm comment vào issue
+  - `update_comment` - Cập nhật comment
 - ✅ Type-safe với TypeScript và Zod validation
 - ✅ Pagination support cho tất cả list endpoints
 
@@ -287,6 +291,104 @@ Lấy time entries với filters.
   "project_id": 1,
   "from": "2024-01-01",
   "to": "2024-12-31"
+}
+```
+
+### 8. create_issue
+
+Tạo một issue/ticket mới trong Redmine.
+
+**Parameters:**
+
+- `project_id` (number, required) - ID của project
+- `subject` (string, required) - Tiêu đề của issue
+- `description` (string, optional) - Mô tả chi tiết
+- `tracker_id` (number, optional) - ID của tracker (Bug, Feature, Support...)
+- `status_id` (number, optional) - ID của status
+- `priority_id` (number, optional) - ID của priority
+- `assigned_to_id` (number, optional) - ID của user được assign
+- `start_date` (string, optional) - Ngày bắt đầu (YYYY-MM-DD)
+- `due_date` (string, optional) - Ngày deadline (YYYY-MM-DD)
+- `done_ratio` (number, optional) - Phần trăm hoàn thành (0-100)
+
+**Example:**
+
+```json
+{
+  "project_id": 1,
+  "subject": "Fix login bug",
+  "description": "Users cannot login with special characters in password",
+  "tracker_id": 1,
+  "priority_id": 3,
+  "assigned_to_id": 5
+}
+```
+
+### 9. update_issue
+
+Cập nhật một issue/ticket đã tồn tại. Chỉ các fields được cung cấp sẽ được cập nhật.
+
+**Parameters:**
+
+- `issue_id` (number, required) - ID của issue cần update
+- `project_id` (number, optional) - Chuyển issue sang project khác
+- `subject` (string, optional) - Cập nhật tiêu đề
+- `description` (string, optional) - Cập nhật mô tả
+- `tracker_id` (number, optional) - Thay đổi tracker
+- `status_id` (number, optional) - Thay đổi status
+- `priority_id` (number, optional) - Thay đổi priority
+- `assigned_to_id` (number, optional) - Reassign cho user khác
+- `start_date` (string, optional) - Cập nhật ngày bắt đầu (YYYY-MM-DD)
+- `due_date` (string, optional) - Cập nhật deadline (YYYY-MM-DD)
+- `done_ratio` (number, optional) - Cập nhật phần trăm hoàn thành (0-100)
+- `notes` (string, optional) - Thêm ghi chú về update này
+
+**Example:**
+
+```json
+{
+  "issue_id": 123,
+  "status_id": 3,
+  "done_ratio": 80,
+  "notes": "Almost done, just need final testing"
+}
+```
+
+### 10. add_comment
+
+Thêm comment/ghi chú vào một issue. Đây là cách đơn giản để thêm comment mà không cần update các fields khác.
+
+**Parameters:**
+
+- `issue_id` (number, required) - ID của issue
+- `notes` (string, required) - Nội dung comment
+
+**Example:**
+
+```json
+{
+  "issue_id": 123,
+  "notes": "I've reviewed the code and it looks good to merge"
+}
+```
+
+### 11. update_comment
+
+Cập nhật một comment đã tồn tại trên issue. Bạn cần journal_id có thể lấy từ chi tiết issue (dùng tool get_issue).
+
+**Parameters:**
+
+- `issue_id` (number, required) - ID của issue chứa comment
+- `journal_id` (number, required) - ID của journal/comment cần update (tìm trong issue.journals array)
+- `notes` (string, required) - Nội dung comment mới
+
+**Example:**
+
+```json
+{
+  "issue_id": 123,
+  "journal_id": 456,
+  "notes": "Updated: The code has been reviewed and approved for merge"
 }
 ```
 

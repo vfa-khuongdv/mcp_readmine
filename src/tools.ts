@@ -6,6 +6,10 @@ import {
   GetUsersSchema,
   SearchIssuesSchema,
   GetTimeEntriesSchema,
+  CreateIssueSchema,
+  UpdateIssueSchema,
+  AddCommentSchema,
+  UpdateCommentSchema,
 } from "./types.js";
 
 export const tools = [
@@ -183,6 +187,159 @@ export const tools = [
       },
     },
   },
+  {
+    name: "create_issue",
+    description:
+      "Create a new issue/ticket in Redmine. Returns the created issue with its ID and details.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "number",
+          description: "The ID of the project to create the issue in",
+        },
+        subject: {
+          type: "string",
+          description: "The title/subject of the issue",
+        },
+        description: {
+          type: "string",
+          description: "Detailed description of the issue",
+        },
+        tracker_id: {
+          type: "number",
+          description: "The tracker type ID (e.g., Bug, Feature, Support)",
+        },
+        status_id: {
+          type: "number",
+          description: "The status ID (e.g., New, In Progress, Resolved)",
+        },
+        priority_id: {
+          type: "number",
+          description: "The priority ID (e.g., Low, Normal, High, Urgent)",
+        },
+        assigned_to_id: {
+          type: "number",
+          description: "The user ID to assign the issue to",
+        },
+        start_date: {
+          type: "string",
+          description: "Start date in YYYY-MM-DD format",
+        },
+        due_date: {
+          type: "string",
+          description: "Due date in YYYY-MM-DD format",
+        },
+        done_ratio: {
+          type: "number",
+          description: "Percentage of completion (0-100)",
+        },
+      },
+      required: ["project_id", "subject"],
+    },
+  },
+  {
+    name: "update_issue",
+    description:
+      "Update an existing Redmine issue/ticket. Only provided fields will be updated.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        issue_id: {
+          type: "number",
+          description: "The ID of the issue to update",
+        },
+        project_id: {
+          type: "number",
+          description: "Move issue to a different project",
+        },
+        subject: {
+          type: "string",
+          description: "Update the title/subject of the issue",
+        },
+        description: {
+          type: "string",
+          description: "Update the detailed description",
+        },
+        tracker_id: {
+          type: "number",
+          description: "Change the tracker type",
+        },
+        status_id: {
+          type: "number",
+          description: "Change the status",
+        },
+        priority_id: {
+          type: "number",
+          description: "Change the priority",
+        },
+        assigned_to_id: {
+          type: "number",
+          description: "Reassign the issue to a different user",
+        },
+        start_date: {
+          type: "string",
+          description: "Update start date in YYYY-MM-DD format",
+        },
+        due_date: {
+          type: "string",
+          description: "Update due date in YYYY-MM-DD format",
+        },
+        done_ratio: {
+          type: "number",
+          description: "Update percentage of completion (0-100)",
+        },
+        notes: {
+          type: "string",
+          description: "Add notes/comments about this update",
+        },
+      },
+      required: ["issue_id"],
+    },
+  },
+  {
+    name: "add_comment",
+    description:
+      "Add a comment/note to an existing Redmine issue. This is a simple way to add comments without updating other issue fields.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        issue_id: {
+          type: "number",
+          description: "The ID of the issue to comment on",
+        },
+        notes: {
+          type: "string",
+          description: "The comment text to add",
+        },
+      },
+      required: ["issue_id", "notes"],
+    },
+  },
+  {
+    name: "update_comment",
+    description:
+      "Update an existing comment on a Redmine issue. You need the journal_id which can be obtained from the issue details (use get_issue tool).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        issue_id: {
+          type: "number",
+          description: "The ID of the issue containing the comment",
+        },
+        journal_id: {
+          type: "number",
+          description:
+            "The ID of the journal/comment to update (found in issue.journals array)",
+        },
+        notes: {
+          type: "string",
+          description: "The updated comment text",
+        },
+      },
+      required: ["issue_id", "journal_id", "notes"],
+    },
+  },
 ];
 
 // Export schemas for validation
@@ -194,4 +351,8 @@ export const toolSchemas = {
   get_users: GetUsersSchema,
   search_issues: SearchIssuesSchema,
   get_time_entries: GetTimeEntriesSchema,
+  create_issue: CreateIssueSchema,
+  update_issue: UpdateIssueSchema,
+  add_comment: AddCommentSchema,
+  update_comment: UpdateCommentSchema,
 };

@@ -8,6 +8,8 @@ import type {
   GetIssuesParams,
   GetProjectsParams,
   GetTimeEntriesParams,
+  CreateIssueParams,
+  UpdateIssueParams,
 } from "./types.js";
 
 export class RedmineClient {
@@ -143,5 +145,105 @@ export class RedmineClient {
       },
     });
     return response.data;
+  }
+
+  /**
+   * Create a new issue
+   */
+  async createIssue(params: CreateIssueParams): Promise<RedmineIssue> {
+    const response = await this.client.post("/issues.json", {
+      issue: {
+        project_id: params.project_id,
+        subject: params.subject,
+        description: params.description,
+        tracker_id: params.tracker_id,
+        status_id: params.status_id,
+        priority_id: params.priority_id,
+        assigned_to_id: params.assigned_to_id,
+        start_date: params.start_date,
+        due_date: params.due_date,
+        done_ratio: params.done_ratio,
+      },
+    });
+    return response.data.issue;
+  }
+
+  /**
+   * Update an existing issue
+   */
+  async updateIssue(
+    issueId: number,
+    params: Omit<UpdateIssueParams, "issue_id">
+  ): Promise<void> {
+    // Build issue object, filtering out undefined values
+    const issueData: Record<string, any> = {};
+
+    if (params.project_id !== undefined)
+      issueData.project_id = params.project_id;
+    if (params.subject !== undefined) issueData.subject = params.subject;
+    if (params.description !== undefined)
+      issueData.description = params.description;
+    if (params.tracker_id !== undefined)
+      issueData.tracker_id = params.tracker_id;
+    if (params.status_id !== undefined) issueData.status_id = params.status_id;
+    if (params.priority_id !== undefined)
+      issueData.priority_id = params.priority_id;
+    if (params.assigned_to_id !== undefined)
+      issueData.assigned_to_id = params.assigned_to_id;
+    if (params.start_date !== undefined)
+      issueData.start_date = params.start_date;
+    if (params.due_date !== undefined) issueData.due_date = params.due_date;
+    if (params.done_ratio !== undefined)
+      issueData.done_ratio = params.done_ratio;
+    if (params.notes !== undefined) issueData.notes = params.notes;
+
+    await this.client.put(`/issues/${issueId}.json`, {
+      issue: issueData,
+    });
+  }
+
+  /**
+   * Add a comment/note to an issue
+   */
+  async addComment(issueId: number, notes: string): Promise<void> {
+    // Only send notes field, nothing else
+    const payload = {
+      issue: {
+        notes,
+      },
+    };
+
+    try {
+      await this.client.put(`/issues/${issueId}.json`, payload);
+    } catch (error: any) {
+      // Log detailed error for debugging
+      console.error("Error adding comment:", {
+        issueId,
+        notesLength: notes.length,
+        error: error.response?.data || error.message,
+        status: error.response?.status,
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Update an existing comment (journal entry)
+   * Note: Redmine API may not support updating journal entries directly
+   * This attempts to add a new note with journal_id reference
+   */
+  async updateComment(
+    issueId: number,
+    journalId: number,
+    notes: string
+  ): Promise<void> {
+    const payload = {
+      issue: {
+        notes,
+        journal_id: journalId,
+      },
+    };
+
+    await this.client.put(`/issues/${issueId}.json`, payload);
   }
 }
