@@ -34,8 +34,8 @@ npm install -g @duongkhuong/mcp-redmine
 ### Hoặc cài đặt từ source
 
 ```bash
-git clone https://github.com/khuongdv/mcp-redmine.git
-cd mcp-redmine
+git clone git@github.com:vfa-khuongdv/mcp_readmine.git
+cd mcp_readmine
 npm install
 npm run build
 ```
@@ -178,6 +178,14 @@ Reload VS Code để load MCP server.
 ```bash
 npm start
 ````
+
+### Example chat with Agents
+
+```plaintext
+- Liệt kê danh sách dự án trong readmine của tôi.
+- Tạo một issue mới trong dự án có ID 1 với tiêu đề "Fix login bug" và mô tả "Users cannot login with special characters in password".
+```
+
 
 ### Test với MCP Inspector
 
