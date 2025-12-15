@@ -3,35 +3,38 @@
 [![npm version](https://badge.fury.io/js/@duongkhuong%2Fmcp-redmine.svg)](https://www.npmjs.com/package/@duongkhuong/mcp-redmine)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-MCP (Model Context Protocol) server cho phép AI agents truy cập Redmine API để lấy thông tin về tickets, projects, users và time entries.
+An MCP (Model Context Protocol) server that allows AI agents to interact with the Redmine API to manage tickets, projects, users, and time entries.
 
-## Tính năng
+## Features
 
-- ✅ Hỗ trợ xác thực kép: Basic Auth + API Key
-- ✅ 11 tools để tương tác với Redmine:
-  - `get_issues` - Lấy danh sách issues với filters
-  - `get_issue` - Lấy chi tiết issue theo ID
-  - `get_projects` - Lấy danh sách projects
-  - `get_project` - Lấy chi tiết project theo ID
-  - `get_users` - Lấy danh sách users
-  - `search_issues` - Tìm kiếm issues theo keyword
-  - `get_time_entries` - Lấy time entries
-  - `create_issue` - Tạo issue mới
-  - `update_issue` - Cập nhật issue
-  - `add_comment` - Thêm comment vào issue
-  - `delete_issue` - Xóa issue
-- ✅ Type-safe với TypeScript và Zod validation
-- ✅ Pagination support cho tất cả list endpoints
+- ✅ Dual Authentication Support: Basic Auth + API Key
+- ✅ Comprehensive Toolset for Redmine interaction:
+  - `get_issues` - List issues with filters
+  - `get_issue` - Get issue details including journals and attachments
+  - `get_projects` - List projects
+  - `get_project` - Get project details
+  - `get_project_members` - List project members (Users)
+  - `get_project_versions` - List project versions (Milestones)
+  - `search_issues` - Search issues by keyword
+  - `create_issue` - Create a new issue
+  - `update_issue` - Update an existing issue
+  - `add_comment` - Add a comment to an issue
+  - `delete_issue` - Delete an issue
+  - `log_time` - Log time entries
+  - `get_time_entries` - List logged time entries
+  - `get_time_entry_activities` - List available time entry activities
+- ✅ Type-safe with TypeScript and Zod validation
+- ✅ Pagination support for all list endpoints
 
-## Cài đặt
+## Installation
 
-### Cài đặt từ npm (Khuyến nghị)
+### From npm (Recommended)
 
 ```bash
 npm install -g @duongkhuong/mcp-redmine
 ```
 
-### Hoặc cài đặt từ source
+### From Source
 
 ```bash
 git clone git@github.com:vfa-khuongdv/mcp_readmine.git
@@ -40,22 +43,22 @@ npm install
 npm run build
 ```
 
-### Cấu hình
+### Configuration
 
-Bạn cần cung cấp các biến môi trường sau:
+You need to provide the following environment variables:
 
-- `REDMINE_URL` - URL của Redmine instance (ví dụ: https://redmine.example.com)
-- `REDMINE_API_KEY` - API key từ account settings
-- `REDMINE_USERNAME` - Username cho Basic Authentication
-- `REDMINE_PASSWORD` - Password cho Basic Authentication
+- `REDMINE_URL` - URL of your Redmine instance (e.g., https://redmine.example.com)
+- `REDMINE_API_KEY` - API key from your account settings
+- `REDMINE_USERNAME` - Username for Basic Authentication
+- `REDMINE_PASSWORD` - Password for Basic Authentication
 
-**Lưu ý:** Redmine API yêu cầu **CẢ HAI** Basic Auth (username/password) **VÀ** API Key để xác thực.
+**Note:** The Redmine API often requires **BOTH** Basic Auth (username/password) **AND** an API Key for full access depending on server configuration.
 
-## Sử dụng
+## Usage
 
-### Với Claude Desktop
+### With Claude Desktop
 
-Thêm vào file cấu hình Claude Desktop:
+Add to your Claude Desktop configuration file:
 
 **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
@@ -78,11 +81,11 @@ Thêm vào file cấu hình Claude Desktop:
 }
 ```
 
-Restart Claude Desktop để load MCP server.
+Restart Claude Desktop to load the MCP server.
 
-### Với Cursor IDE
+### With Cursor IDE
 
-Thêm vào file cấu hình Cursor:
+Add to your Cursor configuration file:
 
 **macOS/Linux**: `~/.cursor/mcp.json`
 
@@ -105,13 +108,13 @@ Thêm vào file cấu hình Cursor:
 }
 ```
 
-Restart Cursor để load MCP server.
+Restart Cursor to load the MCP server.
 
-### Với VS Code
+### With VS Code
 
-**Cách 1: Sử dụng file mcp.json (Không cần extension)**
+**Option 1: Using mcp.json (No extension required)**
 
-Tạo hoặc chỉnh sửa file cấu hình MCP:
+Create or edit your MCP configuration file:
 
 **macOS/Linux**: `~/.vscode/mcp.json`
 
@@ -134,13 +137,13 @@ Tạo hoặc chỉnh sửa file cấu hình MCP:
 }
 ```
 
-Reload VS Code để load MCP server.
+Reload VS Code to load the MCP server.
 
-**Cách 2: Sử dụng Cline Extension**
+**Option 2: Using Cline Extension**
 
-1. Cài đặt extension [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
-2. Mở VS Code Settings (JSON)
-3. Thêm cấu hình MCP:
+1. Install the [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) extension.
+2. Open VS Code Settings (JSON).
+3. Add the MCP configuration:
 
 ```json
 {
@@ -159,35 +162,23 @@ Reload VS Code để load MCP server.
 }
 ```
 
-Reload VS Code để load MCP server.
+Reload VS Code to load the MCP server.
 
-````
+### How to get your Redmine API Key
 
-Reload VS Code để load MCP server.
+1. Log in to your Redmine instance.
+2. Go to **My account** (top right corner).
+3. Click on **API access key** (right sidebar or link).
+4. Click **Show** to reveal the key.
+5. Copy the API key and paste it into your configuration.
 
-### Lấy Redmine API Key
-
-1. Đăng nhập vào Redmine
-2. Vào **My account** (góc trên bên phải)
-3. Click tab **API access key**
-4. Click **Show** để hiển thị API key
-5. Copy API key và paste vào config
-
-### Chạy standalone (Development)
+### Running Standalone (Development)
 
 ```bash
 npm start
-````
-
-### Example chat with Agents
-
-```plaintext
-- Liệt kê danh sách dự án trong readmine của tôi.
-- Tạo một issue mới trong dự án có ID 1 với tiêu đề "Fix login bug" và mô tả "Users cannot login with special characters in password".
 ```
 
-
-### Test với MCP Inspector
+### Testing with MCP Inspector
 
 ```bash
 npx @modelcontextprotocol/inspector npx -y @duongkhuong/mcp-redmine
@@ -197,15 +188,15 @@ npx @modelcontextprotocol/inspector npx -y @duongkhuong/mcp-redmine
 
 ### 1. get_issues
 
-Lấy danh sách issues với optional filters.
+Get a list of issues/tickets with optional filters.
 
 **Parameters:**
 
-- `project_id` (number, optional) - Filter theo project ID
-- `status_id` (number | "open" | "closed" | "\*", optional) - Filter theo status
-- `assigned_to_id` (number, optional) - Filter theo assignee
-- `limit` (number, optional) - Số lượng kết quả (1-100, default: 25)
-- `offset` (number, optional) - Offset cho pagination (default: 0)
+- `project_id` (number, optional) - Filter by project ID
+- `status_id` (number | "open" | "closed" | "\*", optional) - Filter by status
+- `assigned_to_id` (number, optional) - Filter by assignee ID
+- `limit` (number, optional) - Number of results (1-100, default: 25)
+- `offset` (number, optional) - Pagination offset (default: 0)
 
 **Example:**
 
@@ -219,188 +210,170 @@ Lấy danh sách issues với optional filters.
 
 ### 2. get_issue
 
-Lấy chi tiết một issue theo ID, bao gồm journals, attachments, và relations.
+Get detailed information about a specific issue by ID, including journals, attachments, and relations.
 
 **Parameters:**
 
-- `issue_id` (number, required) - ID của issue
-
-**Example:**
-
-```json
-{
-  "issue_id": 123
-}
-```
+- `issue_id` (number, required) - The ID of the issue
 
 ### 3. get_projects
 
-Lấy danh sách tất cả projects.
+Get a list of all projects.
 
 **Parameters:**
 
-- `limit` (number, optional) - Số lượng kết quả (1-100, default: 25)
-- `offset` (number, optional) - Offset cho pagination (default: 0)
+- `limit` (number, optional) - Number of results (1-100, default: 25)
+- `offset` (number, optional) - Pagination offset (default: 0)
 
 ### 4. get_project
 
-Lấy chi tiết một project theo ID.
+Get detailed information about a specific project by ID.
 
 **Parameters:**
 
-- `project_id` (number, required) - ID của project
+- `project_id` (number, required) - The ID of the project
 
-### 5. get_users
+### 5. get_project_members
 
-Lấy danh sách users.
-
-**Parameters:**
-
-- `status` ("active" | "registered" | "locked", optional) - Filter theo status
-- `limit` (number, optional) - Số lượng kết quả (1-100, default: 25)
-- `offset` (number, optional) - Offset cho pagination (default: 0)
-
-### 6. search_issues
-
-Tìm kiếm issues theo keyword trong subject.
+Get a list of project members (users) in a specific project.
 
 **Parameters:**
 
-- `query` (string, required) - Từ khóa tìm kiếm
-- `limit` (number, optional) - Số lượng kết quả (1-100, default: 25)
-- `offset` (number, optional) - Offset cho pagination (default: 0)
+- `project_id` (number, required) - The ID of the project
+- `limit` (number, optional) - Number of results (1-100, default: 25)
+- `offset` (number, optional) - Pagination offset (default: 0)
 
-**Example:**
+### 6. get_project_versions
 
-```json
-{
-  "query": "bug",
-  "limit": 20
-}
-```
-
-### 7. get_time_entries
-
-Lấy time entries với filters.
+Get a list of versions (milestones) for a specific project.
 
 **Parameters:**
 
-- `project_id` (number, optional) - Filter theo project
-- `user_id` (number, optional) - Filter theo user
-- `from` (string, optional) - Ngày bắt đầu (YYYY-MM-DD)
-- `to` (string, optional) - Ngày kết thúc (YYYY-MM-DD)
-- `limit` (number, optional) - Số lượng kết quả (1-100, default: 25)
-- `offset` (number, optional) - Offset cho pagination (default: 0)
+- `project_id` (number, required) - The ID of the project
 
-**Example:**
+### 7. search_issues
 
-```json
-{
-  "project_id": 1,
-  "from": "2024-01-01",
-  "to": "2024-12-31"
-}
-```
-
-### 8. create_issue
-
-Tạo một issue/ticket mới trong Redmine.
+Search for issues by keyword in the subject field.
 
 **Parameters:**
 
-- `project_id` (number, required) - ID của project
-- `subject` (string, required) - Tiêu đề của issue
-- `description` (string, optional) - Mô tả chi tiết
-- `tracker_id` (number, optional) - ID của tracker (Bug, Feature, Support...)
-- `status_id` (number, optional) - ID của status
-- `priority_id` (number, optional) - ID của priority
-- `assigned_to_id` (number, optional) - ID của user được assign
-- `start_date` (string, optional) - Ngày bắt đầu (YYYY-MM-DD)
-- `due_date` (string, optional) - Ngày deadline (YYYY-MM-DD)
-- `done_ratio` (number, optional) - Phần trăm hoàn thành (0-100)
+- `query` (string, required) - Search keyword
+- `limit` (number, optional) - Number of results (1-100, default: 25)
+- `offset` (number, optional) - Pagination offset (default: 0)
 
-**Example:**
+### 8. log_time
 
-```json
-{
-  "project_id": 1,
-  "subject": "Fix login bug",
-  "description": "Users cannot login with special characters in password",
-  "tracker_id": 1,
-  "priority_id": 3,
-  "assigned_to_id": 5
-}
-```
-
-### 9. update_issue
-
-Cập nhật một issue/ticket đã tồn tại. Chỉ các fields được cung cấp sẽ được cập nhật.
+Log time stats for an issue or project.
 
 **Parameters:**
 
-- `issue_id` (number, required) - ID của issue cần update
-- `project_id` (number, optional) - Chuyển issue sang project khác
-- `subject` (string, optional) - Cập nhật tiêu đề
-- `description` (string, optional) - Cập nhật mô tả
-- `tracker_id` (number, optional) - Thay đổi tracker
-- `status_id` (number, optional) - Thay đổi status
-- `priority_id` (number, optional) - Thay đổi priority
-- `assigned_to_id` (number, optional) - Reassign cho user khác
-- `start_date` (string, optional) - Cập nhật ngày bắt đầu (YYYY-MM-DD)
-- `due_date` (string, optional) - Cập nhật deadline (YYYY-MM-DD)
-- `done_ratio` (number, optional) - Cập nhật phần trăm hoàn thành (0-100)
-- `notes` (string, optional) - Thêm ghi chú về update này
+- `issue_id` (number, optional) - The ID of the issue to log time for
+- `project_id` (number, optional) - The ID of the project to log time for
+- `hours` (number, required) - The number of hours to log
+- `activity_id` (number, optional) - The ID of the activity
+- `comments` (string, optional) - Short comment for the time entry
+- `spent_on` (string, optional) - Date the time was spent (YYYY-MM-DD)
 
-**Example:**
+### 9. get_time_entries
 
-```json
-{
-  "issue_id": 123,
-  "status_id": 3,
-  "done_ratio": 80,
-  "notes": "Almost done, just need final testing"
-}
-```
-
-### 10. add_comment
-
-Thêm comment/ghi chú vào một issue. Đây là cách đơn giản để thêm comment mà không cần update các fields khác.
+Get a list of time entries with filters.
 
 **Parameters:**
 
-- `issue_id` (number, required) - ID của issue
-- `notes` (string, required) - Nội dung comment
+- `project_id` (number, optional) - Filter by project
+- `user_id` (number, optional) - Filter by user
+- `from` (string, optional) - Start date (YYYY-MM-DD)
+- `to` (string, optional) - End date (YYYY-MM-DD)
+- `limit` (number, optional) - Number of results (1-100, default: 25)
+- `offset` (number, optional) - Pagination offset (default: 0)
 
-**Example:**
+### 10. get_time_entry_activities
 
-```json
-{
-  "issue_id": 123,
-  "notes": "I've reviewed the code and it looks good to merge"
-}
-```
+Get a list of available time entry activities.
 
-### 11. delete_issue
+**Parameters:** None
 
-Xóa một issue/ticket khỏi Redmine.
+### 11. create_issue
+
+Create a new issue/ticket in Redmine.
 
 **Parameters:**
 
-- `issue_id` (number, required) - ID của issue cần xóa
+- `project_id` (number, required) - ID of the project
+- `subject` (string, required) - Title of the issue
+- `description` (string, optional) - Detailed description
+- `tracker_id` (number, optional) - Tracker ID (Bug, Feature, etc.)
+- `status_id` (number, optional) - Status ID
+- `priority_id` (number, optional) - Priority ID
+- `assigned_to_id` (number, optional) - User ID to assign
+- `start_date` (string, optional) - Start date (YYYY-MM-DD)
+- `due_date` (string, optional) - Due date (YYYY-MM-DD)
+- `done_ratio` (number, optional) - Completion percentage (0-100)
+- `fixed_version_id` (number, optional) - Target version/milestone ID
 
-**Example:**
+### 12. update_issue
 
-```json
-{
-  "issue_id": 123
-}
-```
+Update an existing issue/ticket. Only provided fields will be updated.
 
-## Roadmap / Future Tools
+**Parameters:**
 
-Các tools dự kiến sẽ được support trong tương lai:
+- `issue_id` (number, required) - ID of the issue to update
+- `project_id` (number, optional) - Move to another project
+- `subject` (string, optional) - Update title
+- `description` (string, optional) - Update description
+- `tracker_id` (number, optional) - Change tracker
+- `status_id` (number, optional) - Change status
+- `priority_id` (number, optional) - Change priority
+- `assigned_to_id` (number, optional) - Reassign to another user
+- `start_date` (string, optional) - Update start date
+- `due_date` (string, optional) - Update due date
+- `done_ratio` (number, optional) - Update completion percentage
+- `fixed_version_id` (number, optional) - Update target version
+- `notes` (string, optional) - Add a note/comment about the update
 
-- #NA
+### 13. add_comment
+
+Add a comment/note to an issue.
+
+**Parameters:**
+
+- `issue_id` (number, required) - ID of the issue
+- `notes` (string, required) - Comment content
+
+### 14. delete_issue
+
+Delete an issue/ticket from Redmine.
+
+**Parameters:**
+
+- `issue_id` (number, required) - ID of the issue to delete
+
+## Example Prompts
+
+Here are some example prompts you can use to interact with the Redmine MCP server:
+
+**🔍 Querying & Search**
+
+- "List all open bugs in project 'Mobile App'"
+- "Show me high priority issues assigned to me"
+- "Search for issues about 'login failure'"
+- "Get details of issue #1234 including history"
+- "Who are the members of project ID 5?"
+
+**📝 Issue Management**
+
+- "Create a new feature request in 'Web Platform' project: Add Dark Mode toggle"
+- "Update issue #567 status to 'Resolved' and set done ratio to 100%"
+- "Reassign issue #890 to user 'John Doe'"
+- "Add a comment to issue #123: 'Fixed in commit abc1234'"
+- "Delete issue #999"
+
+**⏱️ Time Tracking**
+
+- "Log 2 hours on issue #123 for 'Development'"
+- "Show my time entries for this week"
+- "List time entries for project 'Website Redesign' in January"
+- "What are the available activities for time logging?"
 
 ## Development
 
@@ -430,23 +403,23 @@ mcp-redmine/
 
 ### Authentication errors
 
-Đảm bảo bạn đã cung cấp đầy đủ:
+Ensure you have provided:
 
-- ✅ REDMINE_URL (không có trailing slash)
-- ✅ REDMINE_API_KEY (từ account settings)
+- ✅ REDMINE_URL (no trailing slash)
+- ✅ REDMINE_API_KEY (from account settings)
 - ✅ REDMINE_USERNAME
 - ✅ REDMINE_PASSWORD
 
 ### Connection errors
 
-- Kiểm tra REDMINE_URL có đúng không
-- Kiểm tra network/firewall có block không
-- Verify API key còn valid không
+- Check if REDMINE_URL is correct.
+- Check network/firewall settings.
+- Verify if API key is still valid.
 
 ### Tool not found
 
-- Đảm bảo đã build: `npm run build`
-- Restart Claude Desktop sau khi update config
+- Ensure you have built the project: `npm run build`
+- Restart your AI client (Claude, Cursor, VS Code) after updating config.
 
 ## License
 
