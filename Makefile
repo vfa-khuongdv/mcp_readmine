@@ -4,9 +4,10 @@
 NPM := npm
 NPX := npx
 BIOME := $(NPX) @biomejs/biome
+MCP_PUBLISHER := mcp-publisher
 
 # Phony targets
-.PHONY: all install build dev lint format check check-apply clean test
+.PHONY: all install build dev lint format check check-apply clean test npm-publish mcp-publish
 
 # Default target
 all: install build
@@ -46,3 +47,11 @@ check-apply:
 # Clean build artifacts
 clean:
 	rm -rf dist
+
+# NPM publish
+npm-publish:
+	$(NPM) publish --access public
+
+# MCP publish
+mcp-publish:
+	$(MCP_PUBLISHER) publish
