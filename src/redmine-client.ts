@@ -1,26 +1,24 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { type AxiosInstance } from "axios";
 import type {
-  RedmineConfig,
-  RedmineIssue,
-  RedmineProject,
-  RedmineUser,
-  RedmineTimeEntry,
-  TimeEntryActivity,
+  CreateIssueParams,
   GetIssuesParams,
   GetProjectsParams,
   GetTimeEntriesParams,
-  CreateIssueParams,
-  UpdateIssueParams,
   LogTimeParams,
+  RedmineConfig,
+  RedmineIssue,
+  RedmineProject,
+  RedmineTimeEntry,
+  RedmineUser,
+  RedmineVersion,
+  TimeEntryActivity,
+  UpdateIssueParams,
 } from "./types.js";
 
 export class RedmineClient {
   private client: AxiosInstance;
-  private config: RedmineConfig;
 
   constructor(config: RedmineConfig) {
-    this.config = config;
-
     // Create axios instance with both Basic Auth and API Key
     this.client = axios.create({
       baseURL: `${config.url}/`,
@@ -89,26 +87,47 @@ export class RedmineClient {
   }
 
   /**
+   * Get list of project versions
+   */
+  async getProjectVersions(projectId: number): Promise<{
+    versions: RedmineVersion[];
+    total_count: number;
+  }> {
+    const response = await this.client.get(
+      `/projects/${projectId}/versions.json`
+    );
+    return {
+      versions: response.data.versions,
+      total_count: response.data.versions.length,
+    };
+  }
+
+  /**
    * Get list of users in a specific project
    */
-  async getUsers(
-    params: { project_id: number; limit?: number; offset?: number }
-  ): Promise<{
+  async getUsers(params: {
+    project_id: number;
+    limit?: number;
+    offset?: number;
+  }): Promise<{
     users: RedmineUser[];
     total_count: number;
   }> {
     if (!params.project_id) {
       throw new Error("project_id is required");
     }
-    
+
     try {
-      const response = await this.client.get(`/projects/${params.project_id}/memberships.json`, {
-        params: {
-          limit: params.limit || 25,
-          offset: params.offset || 0,
-        },
-      });
-      
+      const response = await this.client.get(
+        `/projects/${params.project_id}/memberships.json`,
+        {
+          params: {
+            limit: params.limit || 25,
+            offset: params.offset || 0,
+          },
+        }
+      );
+
       // Transform memberships to users format
       const users = response.data.memberships.map((membership: any) => ({
         id: membership.user.id,
@@ -119,7 +138,7 @@ export class RedmineClient {
         mail: membership.user.mail,
         roles: membership.roles,
       }));
-      
+
       return {
         users,
         total_count: response.data.total_count,
@@ -190,6 +209,7 @@ export class RedmineClient {
         start_date: params.start_date,
         due_date: params.due_date,
         done_ratio: params.done_ratio,
+        fixed_version_id: params.fixed_version_id,
       },
     });
     return response.data.issue;
@@ -222,6 +242,8 @@ export class RedmineClient {
     if (params.due_date !== undefined) issueData.due_date = params.due_date;
     if (params.done_ratio !== undefined)
       issueData.done_ratio = params.done_ratio;
+    if (params.fixed_version_id !== undefined)
+      issueData.fixed_version_id = params.fixed_version_id;
     if (params.notes !== undefined) issueData.notes = params.notes;
 
     await this.client.put(`/issues/${issueId}.json`, {

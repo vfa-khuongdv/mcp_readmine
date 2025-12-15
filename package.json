@@ -12,7 +12,10 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "check": "npx @biomejs/biome check ./src",
+    "format": "npx @biomejs/biome check --write ./src",
+    "test": "vitest"
   },
   "keywords": [
     "mcp",
@@ -43,7 +46,9 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.8",
     "@types/node": "^22.10.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^4.0.15"
   }
 }

@@ -4,13 +4,13 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
-  ListToolsRequestSchema,
   ErrorCode,
+  ListToolsRequestSchema,
   McpError,
 } from "@modelcontextprotocol/sdk/types.js";
 import dotenv from "dotenv";
 import { RedmineClient } from "./redmine-client.js";
-import { tools, toolSchemas } from "./tools.js";
+import { toolSchemas, tools } from "./tools.js";
 import type { RedmineConfig } from "./types.js";
 
 // Load environment variables
@@ -29,7 +29,9 @@ const missingEnvVars = requiredEnvVars.filter(
 
 if (missingEnvVars.length > 0) {
   console.error("Error: Missing required environment variables:");
-  missingEnvVars.forEach((varName) => console.error(`  - ${varName}`));
+  missingEnvVars.forEach((varName) => {
+    console.error(`  - ${varName}`);
+  });
   console.error("\nPlease create a .env file with all required variables.");
   console.error("See .env.example for reference.");
   process.exit(1);
@@ -37,10 +39,10 @@ if (missingEnvVars.length > 0) {
 
 // Initialize Redmine client
 const config: RedmineConfig = {
-  url: process.env.REDMINE_URL!,
-  apiKey: process.env.REDMINE_API_KEY!,
-  username: process.env.REDMINE_USERNAME!,
-  password: process.env.REDMINE_PASSWORD!,
+  url: process.env.REDMINE_URL || "",
+  apiKey: process.env.REDMINE_API_KEY || "",
+  username: process.env.REDMINE_USERNAME || "",
+  password: process.env.REDMINE_PASSWORD || "",
 };
 
 const redmineClient = new RedmineClient(config);
@@ -126,6 +128,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "get_project_members": {
         const params = toolSchemas.get_project_members.parse(args);
         const result = await redmineClient.getUsers(params);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "get_project_versions": {
+        const params = toolSchemas.get_project_versions.parse(args);
+        const result = await redmineClient.getProjectVersions(
+          params.project_id
+        );
         return {
           content: [
             {

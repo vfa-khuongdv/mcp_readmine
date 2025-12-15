@@ -1,17 +1,18 @@
 import {
-  GetIssuesSchema,
-  GetIssueSchema,
-  GetProjectsSchema,
-  GetProjectSchema,
-  GetProjectMembersSchema,
-  SearchIssuesSchema,
-  GetTimeEntriesSchema,
-  CreateIssueSchema,
-  UpdateIssueSchema,
   AddCommentSchema,
+  CreateIssueSchema,
   DeleteIssueSchema,
-  LogTimeSchema,
+  GetIssueSchema,
+  GetIssuesSchema,
+  GetProjectMembersSchema,
+  GetProjectSchema,
+  GetProjectsSchema,
+  GetProjectVersionsSchema,
+  GetTimeEntriesSchema,
   GetTimeEntryActivitiesSchema,
+  LogTimeSchema,
+  SearchIssuesSchema,
+  UpdateIssueSchema,
 } from "./types.js";
 
 export const tools = [
@@ -127,6 +128,20 @@ export const tools = [
     },
   },
   {
+    name: "get_project_versions",
+    description: "Get a list of versions for a specific project.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "number",
+          description: "The ID of the project to retrieve versions for",
+        },
+      },
+      required: ["project_id"],
+    },
+  },
+  {
     name: "search_issues",
     description:
       "Search for Redmine issues/tickets by keyword in the subject field. Returns paginated results.",
@@ -236,6 +251,10 @@ export const tools = [
           type: "number",
           description: "Percentage of completion (0-100)",
         },
+        fixed_version_id: {
+          type: "number",
+          description: "The ID of the target version (milestone)",
+        },
       },
       required: ["project_id", "subject"],
     },
@@ -290,6 +309,10 @@ export const tools = [
         done_ratio: {
           type: "number",
           description: "Update percentage of completion (0-100)",
+        },
+        fixed_version_id: {
+          type: "number",
+          description: "Update the target version (milestone)",
         },
         notes: {
           type: "string",
@@ -392,4 +415,5 @@ export const toolSchemas = {
   delete_issue: DeleteIssueSchema,
   log_time: LogTimeSchema,
   get_time_entry_activities: GetTimeEntryActivitiesSchema,
+  get_project_versions: GetProjectVersionsSchema,
 };
