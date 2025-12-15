@@ -15,7 +15,8 @@
     "prepare": "npm run build",
     "check": "npx @biomejs/biome check ./src",
     "format": "npx @biomejs/biome check --write ./src",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "mcp",
