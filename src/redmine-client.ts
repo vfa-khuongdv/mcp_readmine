@@ -37,7 +37,7 @@ export class RedmineClient {
    * Get list of issues with optional filters
    */
   async getIssues(
-    params: Partial<GetIssuesParams> = {}
+    params: Partial<GetIssuesParams> = {},
   ): Promise<{ issues: RedmineIssue[]; total_count: number }> {
     const response = await this.client.get("/issues.json", {
       params: {
@@ -67,7 +67,7 @@ export class RedmineClient {
    * Get list of projects
    */
   async getProjects(
-    params: Partial<GetProjectsParams> = {}
+    params: Partial<GetProjectsParams> = {},
   ): Promise<{ projects: RedmineProject[]; total_count: number }> {
     const response = await this.client.get("/projects.json", {
       params: {
@@ -94,7 +94,7 @@ export class RedmineClient {
     total_count: number;
   }> {
     const response = await this.client.get(
-      `/projects/${projectId}/versions.json`
+      `/projects/${projectId}/versions.json`,
     );
     return {
       versions: response.data.versions,
@@ -125,7 +125,7 @@ export class RedmineClient {
             limit: params.limit || 25,
             offset: params.offset || 0,
           },
-        }
+        },
       );
 
       // Transform memberships to users format
@@ -157,7 +157,7 @@ export class RedmineClient {
   async searchIssues(
     query: string,
     limit: number = 25,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<{
     issues: RedmineIssue[];
     total_count: number;
@@ -220,7 +220,7 @@ export class RedmineClient {
    */
   async updateIssue(
     issueId: number,
-    params: Omit<UpdateIssueParams, "issue_id">
+    params: Omit<UpdateIssueParams, "issue_id">,
   ): Promise<void> {
     // Build issue object, filtering out undefined values
     const issueData: Record<string, any> = {};
@@ -316,7 +316,7 @@ export class RedmineClient {
     time_entry_activities: TimeEntryActivity[];
   }> {
     const response = await this.client.get(
-      "/enumerations/time_entry_activities.json"
+      "/enumerations/time_entry_activities.json",
     );
     return response.data;
   }

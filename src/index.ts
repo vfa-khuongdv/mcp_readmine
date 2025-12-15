@@ -24,7 +24,7 @@ const requiredEnvVars = [
   "REDMINE_PASSWORD",
 ];
 const missingEnvVars = requiredEnvVars.filter(
-  (varName) => !process.env[varName]
+  (varName) => !process.env[varName],
 );
 
 if (missingEnvVars.length > 0) {
@@ -57,7 +57,7 @@ const server = new Server(
     capabilities: {
       tools: {},
     },
-  }
+  },
 );
 
 // Handle tool listing
@@ -141,7 +141,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "get_project_versions": {
         const params = toolSchemas.get_project_versions.parse(args);
         const result = await redmineClient.getProjectVersions(
-          params.project_id
+          params.project_id,
         );
         return {
           content: [
@@ -158,7 +158,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const result = await redmineClient.searchIssues(
           params.query,
           params.limit,
-          params.offset
+          params.offset,
         );
         return {
           content: [
@@ -209,7 +209,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                   message: `Issue ${params.issue_id} updated successfully`,
                 },
                 null,
-                2
+                2,
               ),
             },
           ],
@@ -229,7 +229,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                   message: `Comment added to issue ${params.issue_id}`,
                 },
                 null,
-                2
+                2,
               ),
             },
           ],
@@ -249,7 +249,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                   message: `Issue ${params.issue_id} deleted successfully`,
                 },
                 null,
-                2
+                2,
               ),
             },
           ],
@@ -288,7 +288,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     if (error instanceof Error) {
       throw new McpError(
         ErrorCode.InternalError,
-        `Error executing ${name}: ${error.message}`
+        `Error executing ${name}: ${error.message}`,
       );
     }
     throw error;
